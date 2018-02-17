@@ -22,7 +22,7 @@ public class Robot extends IterativeRobot {
 	private Joystick m_leftStick;
 	Timer timer;
 	boolean shouldRamp = false;
-	double turnSpeed = .4425;
+	double turnSpeed = 0.4425;
 	double linearSpeed = 0.5;
 	int timeFactor;
 	
@@ -54,7 +54,7 @@ public class Robot extends IterativeRobot {
 			stop();
 			timeFactor++;
 		}
-		calibrate();
+//		calibrate();
 	}
 	
 	private void calibrate() {
