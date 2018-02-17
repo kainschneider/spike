@@ -40,9 +40,9 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		//come back to timer and change time etc
 		if (timer.get() <2.0) {
-			m_myRobot.tankDrive(1.0,1.0);
+			m_myRobot.tankDrive(0.5, 0.5, true);
 		} else {
-			m_myRobot.tankDrive(0.0,0.0 );
+			m_myRobot.tankDrive(0.0, 0.0, true);
 		
 		}
 		
