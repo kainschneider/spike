@@ -22,7 +22,7 @@ public class Robot extends IterativeRobot {
 	private Joystick m_leftStick;
 	Timer timer;
 	boolean shouldRamp = false;
-	double turnSpeed = 0.4425;
+	double turnSpeed = 0.46;
 	double linearSpeed = 0.5;
 	int timeFactor;
 	int timeFix;
@@ -45,6 +45,22 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousPeriodic() {
+		double driveTime = 2.5;
+		double superSpeed = 1.0;
+		if (timer.get() < driveTime * 0.2) {
+			forward(superSpeed);
+		} else if(timer.get() < driveTime * 0.4 && timer.get() > driveTime * 0.2) {
+			stop(); 
+		} else if(timer.get() > driveTime * 0.4 && timer.get() < driveTime * 1.0) {
+			forward(0.5);
+		} else {
+			stop();
+		}
+		
+		
+	}
+	
+	private void calibrate() {
 		if (timer.get() > timeFactor + timeFix - 1.0 && timer.get() < timeFactor + timeFix) {
 			forward(linearSpeed);
 		} else if (timer.get() > timeFactor + timeFix && timer.get() < timeFactor + timeFix + 0.5) {
@@ -57,31 +73,7 @@ public class Robot extends IterativeRobot {
 			timeFactor++;
 		}
 	}
-	
-	
-	private void calibrate() {
-		if (timer.get() < 1.0) {
-			forward(linearSpeed);
-		} else if (timer.get() > 1.0 && timer.get() < 1.5) {
-			turn("left", turnSpeed); 
-		} else if (timer.get()> 1.5 && timer.get() < 2.0) {
-			stop();
-		} else if (timer.get() > 2.0 && timer.get() < 3.0) {
-			forward(linearSpeed);
-		} else if (timer.get() > 3.0 && timer.get() < 3.5) {
-			turn("left", turnSpeed);
-		} else if (timer.get() > 4.0 && timer.get() < 5.0) {
-			forward(linearSpeed);
-		} else if (timer.get() > 5.0 && timer.get() < 5.5) {
-			turn("left", turnSpeed);
-		} else if (timer.get() > 6.0 && timer.get() < 7.0) {
-			forward(linearSpeed);
-		} else if (timer.get() > 7.0 && timer.get() < 7.5) {
-			turn("left", turnSpeed);
-		} else {
-			stop();
-		}
-	}
+
 	
 	private void forward(double speed) {
 		System.out.print("Forward with speed " + speed);
