@@ -19,6 +19,7 @@ public class Robot extends IterativeRobot {
 	int timeFactor;
 	int timeFix;
 	private Drive drive;
+	double teleopSpeed;
 	
 	@Override
 	public void robotInit() {
@@ -26,7 +27,9 @@ public class Robot extends IterativeRobot {
 		stick = new Joystick(0);
 		timer = new Timer();
 		drive = new Drive(spike, false);
+		teleopSpeed = 0.65;
 	}
+	
 	
 	@Override
 	public void autonomousInit() {
@@ -73,6 +76,11 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-		spike.arcadeDrive(-stick.getY()*(0.4*stick.getRawAxis(3)+0.6), stick.getRawAxis(4)*(0.4*stick.getRawAxis(3)+0.6));
+		
+		if (stick.getRawButton(6)) {
+			teleopSpeed = (teleopSpeed == 0.65) ? 1.0 : 0.65;
+		}
+		spike.arcadeDrive(-stick.getY()*teleopSpeed, stick.getRawAxis(2)*teleopSpeed);
+//		spike.arcadeDrive(-stick.getY()*teleopSpeed, stick.getX()*teleopSpeed);
 	}
 }
