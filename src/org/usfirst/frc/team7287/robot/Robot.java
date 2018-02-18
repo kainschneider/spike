@@ -25,6 +25,7 @@ public class Robot extends IterativeRobot {
 	double turnSpeed = 0.4425;
 	double linearSpeed = 0.5;
 	int timeFactor;
+	int timeFix;
 	
 	@Override
 	public void robotInit() {
@@ -36,6 +37,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		timeFactor = 1;
+		timeFix = 0;
 		timer.reset();
 		timer.start();
 	}
@@ -43,19 +45,19 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousPeriodic() {
-		if (timer.get() < timeFactor+2 && timer.get() > timeFactor + 1.0) {
+		if (timer.get() > timeFactor + timeFix - 1.0 && timer.get() < timeFactor + timeFix) {
 			forward(linearSpeed);
-		} else if (timer.get() > timeFactor && timer.get() < timeFactor + 0.5) {
+		} else if (timer.get() > timeFactor + timeFix && timer.get() < timeFactor + timeFix + 0.5) {
 			turn("left",turnSpeed);
-			stop();
-		} else if (timer.get()> timeFactor + 0.5 && timer.get() < timeFactor+1.0) {
+		} else if (timer.get()> timeFactor + timeFix + 0.5 && timer.get() < timeFactor + timeFix + 1.0) {
 			stop();
 		} else {
 			stop();
+			timeFix++;
 			timeFactor++;
 		}
-//		calibrate();
 	}
+	
 	
 	private void calibrate() {
 		if (timer.get() < 1.0) {
