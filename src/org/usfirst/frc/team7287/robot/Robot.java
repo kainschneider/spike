@@ -7,23 +7,25 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import org.usfirst.frc.team7287.robot.Drive;
 
 
 public class Robot extends IterativeRobot {
-	private DifferentialDrive m_myRobot;
-	private Joystick m_leftStick;
+	private DifferentialDrive spike;
+	private Joystick stick;
 	Timer timer;
-	boolean shouldRamp = false;
 	double turnSpeed = 0.46;
 	double linearSpeed = 0.5;
 	int timeFactor;
 	int timeFix;
+	private Drive drive;
 	
 	@Override
 	public void robotInit() {
-		m_myRobot = new DifferentialDrive(new Spark(0), new Spark(1));
-		m_leftStick = new Joystick(0);
+		spike = new DifferentialDrive(new Spark(0), new Spark(1));
+		stick = new Joystick(0);
 		timer = new Timer();
+		drive = new Drive(spike, false);
 	}
 	
 	@Override
@@ -45,59 +47,32 @@ public class Robot extends IterativeRobot {
 		double superSpeed = 1.0;
 		double fallTime = 0.25;
 		if (timer.get() < driveTime * 0.1) {
-			forward(superSpeed);
+			drive.forward(superSpeed);
 		} else if(timer.get() < driveTime * fallTime && timer.get() > driveTime * 0.1) {
-			stop(); 
+			drive.stop(); 
 		} else if(timer.get() > driveTime * fallTime && timer.get() < driveTime * 1.0) {
-			forward(0.5);
+			drive.forward(0.5);
 		} else {
-			stop();
+			drive.stop();
 		}
 	}
 	
 	private void calibrate() {
 		if (timer.get() > timeFactor + timeFix - 1.0 && timer.get() < timeFactor + timeFix) {
-			forward(linearSpeed);
+			drive.forward(linearSpeed);
 		} else if (timer.get() > timeFactor + timeFix && timer.get() < timeFactor + timeFix + 0.5) {
-			turn("left",turnSpeed);
+			drive.turn("left",turnSpeed);
 		} else if (timer.get()> timeFactor + timeFix + 0.5 && timer.get() < timeFactor + timeFix + 1.0) {
-			stop();
+			drive.stop();
 		} else {
-			stop();
+			drive.stop();
 			timeFix++;
 			timeFactor++;
-		}
-	}
-
-	
-	private void forward(double speed) {
-		System.out.println("Forward with speed " + speed);
-		m_myRobot.tankDrive(speed, speed, shouldRamp);
-	}
-	
-	private void stop() {
-		System.out.println("Stop nuff said");
-		m_myRobot.tankDrive(0.0, 0.0, shouldRamp);
-	}
-	
-	private void reverse(double speed) {
-		System.out.println("Reverse with speed " + speed);
-		m_myRobot.tankDrive(-speed, -speed, shouldRamp);
-	}
-	
-	private void turn(String direction, double speed) {
-		System.out.println("Turn with direction "+ direction + "and speed " + speed);
-		switch(direction.toLowerCase()) {
-		case "right": 
-			m_myRobot.tankDrive(speed, -speed, shouldRamp);
-		case "left":
-			m_myRobot.tankDrive(-speed, speed, shouldRamp);
-		default:
 		}
 	}
 	
 	@Override
 	public void teleopPeriodic() {
-		m_myRobot.arcadeDrive(-m_leftStick.getY()*(0.4*m_leftStick.getRawAxis(3)+0.6), m_leftStick.getRawAxis(4)*(0.4*m_leftStick.getRawAxis(3)+0.6));
+		spike.arcadeDrive(-stick.getY()*(0.4*stick.getRawAxis(3)+0.6), stick.getRawAxis(4)*(0.4*stick.getRawAxis(3)+0.6));
 	}
 }
