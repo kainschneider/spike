@@ -1,9 +1,9 @@
 //All page numbers referencing FRC Java Programing Manual
-//import came from page 185
+//import came from page 185, 168 on newer version
 import edu.wpi.first.wpilibj.Ultrasonic;
 
 //temperary on switch
-int oN=1;
+int oN=0;
 
 public class clawHeight{
 //Cunstrucing an Analog Sensor coming from page 199
@@ -17,9 +17,9 @@ public class clawHeight{
  double voltsValue = clawHeight.getVoltage();
   
  //sending values to console for comparision
-while(oN > 0){
-System.out.println("raw value"+ rawValue);
-System.out.println("Voltage value"+ voltsValue);
+while(oN < 10){
+System.out.println("raw value: "+ rawValue);
+System.out.println("Voltage value: "+ voltsValue);
    oN++
    }
 }
