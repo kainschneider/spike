@@ -84,8 +84,8 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-//		clawHeightSensor.readClawVoltage();
-		clawMotor.setVoltageRampRate(1);
+		clawHeightSensor.readClawValues();
+		//clawMotor.setVoltageRampRate(1);
 		//clawMotor.stopMotor();
 		if (stick.getRawButton(6)) {
 			teleopSpeed = (teleopSpeed == 0.65) ? 1.0 : 0.65;

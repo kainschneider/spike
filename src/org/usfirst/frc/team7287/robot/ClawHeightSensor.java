@@ -12,11 +12,13 @@ public class ClawHeightSensor{
 		analogInput = new AnalogInput(port);
 	}
 	
-	public void readClawVoltage() {
+	public void readClawValues() {
 		int rawValue = analogInput.getValue();
 		double voltsValue = analogInput.getVoltage();
+		//Returning Infinte cm which I cant tell why
+		double distanceCM = (voltsValue/0.0048828125)-58.5;
 		System.out.println("raw value: "+ rawValue);
 		System.out.println("Voltage value: "+ voltsValue);
-	
+		System.out.println("Distance: "+ distanceCM + "cm");
 	}
 }
