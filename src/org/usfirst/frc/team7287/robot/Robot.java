@@ -2,12 +2,12 @@
 package org.usfirst.frc.team7287.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.usfirst.frc.team7287.robot.Drive;
+import org.usfirst.frc.team7287.robot.ClawHeightSensor;
 
 
 public class Robot extends IterativeRobot {
@@ -20,6 +20,7 @@ public class Robot extends IterativeRobot {
 	int timeFix;
 	private Drive drive;
 	double teleopSpeed;
+	ClawHeightSensor clawHeightSensor;
 	
 	@Override
 	public void robotInit() {
@@ -28,6 +29,7 @@ public class Robot extends IterativeRobot {
 		timer = new Timer();
 		drive = new Drive(spike, false);
 		teleopSpeed = 0.65;
+		clawHeightSensor = new ClawHeightSensor(0);
 	}
 	
 	
@@ -76,7 +78,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-		
+		clawHeightSensor.readClawVoltage();
 		if (stick.getRawButton(6)) {
 			teleopSpeed = (teleopSpeed == 0.65) ? 1.0 : 0.65;
 		}
