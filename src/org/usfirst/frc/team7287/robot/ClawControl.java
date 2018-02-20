@@ -1,6 +1,8 @@
 package org.usfirst.frc.team7287.robot;
-import edu.wpi.first.wpilibj.CANJaguar;
+import com.ctre.CANTalon;
 
 public class ClawControl {
-	CANJaguar claw;
+	ClawControl(){
+		
+	}
 }

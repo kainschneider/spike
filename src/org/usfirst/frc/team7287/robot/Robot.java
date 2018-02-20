@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.usfirst.frc.team7287.robot.Drive;
 import org.usfirst.frc.team7287.robot.ClawHeightSensor;
 
+//Note CANTalon is deprecated and I still don't care.
+import com.ctre.CANTalon;
+
 
 public class Robot extends IterativeRobot {
 	private DifferentialDrive spike;
@@ -21,6 +24,7 @@ public class Robot extends IterativeRobot {
 	private Drive drive;
 	double teleopSpeed;
 	ClawHeightSensor clawHeightSensor;
+	CANTalon clawMotor;
 	
 	@Override
 	public void robotInit() {
@@ -30,6 +34,8 @@ public class Robot extends IterativeRobot {
 		drive = new Drive(spike, false);
 		teleopSpeed = 0.65;
 		clawHeightSensor = new ClawHeightSensor(0);
+		clawMotor = new CANTalon(0);
+		clawMotor.enable();
 	}
 	
 	
@@ -78,7 +84,9 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-		clawHeightSensor.readClawVoltage();
+//		clawHeightSensor.readClawVoltage();
+		clawMotor.setVoltageRampRate(1);
+		//clawMotor.stopMotor();
 		if (stick.getRawButton(6)) {
 			teleopSpeed = (teleopSpeed == 0.65) ? 1.0 : 0.65;
 		}

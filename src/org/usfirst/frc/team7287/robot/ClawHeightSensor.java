@@ -13,16 +13,10 @@ public class ClawHeightSensor{
 	}
 	
 	public void readClawVoltage() {
-		//Constructing an Analog Sensor coming from page 199
-		//Raw and voltage values, we can decide which we like more
-		//Coming from page 200
 		int rawValue = analogInput.getValue();
 		double voltsValue = analogInput.getVoltage();
-
-		//sending values to console for comparision
-		for(int i=0; i < 10; i++) {
-			System.out.println("raw value: "+ rawValue);
-			System.out.println("Voltage value: "+ voltsValue);
-		}
+		System.out.println("raw value: "+ rawValue);
+		System.out.println("Voltage value: "+ voltsValue);
+	
 	}
 }
