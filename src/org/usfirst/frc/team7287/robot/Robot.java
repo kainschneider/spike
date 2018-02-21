@@ -53,6 +53,7 @@ public class Robot extends IterativeRobot {
 		initialCubeDrop();
 	}
 	
+//		Autonomous initial cube drop procedure, moves robot forwards 10' and drops cube into claws
 	private void initialCubeDrop() {
 		double driveTime = 2.5;
 		double superSpeed = 1.0;
@@ -85,8 +86,11 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		clawHeightSensor.readClawValues();
-		//clawMotor.setVoltageRampRate(1);
-		//clawMotor.stopMotor();
+		clawMotor.
+		clawMotor.
+		clawMotor.stopMotor();
+		
+//		Speed gearing system to swap between precision speed and high speed when right bumper is pressed
 		if (stick.getRawButton(6)) {
 			teleopSpeed = (teleopSpeed == 0.65) ? 1.0 : 0.65;
 		}
