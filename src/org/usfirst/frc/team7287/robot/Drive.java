@@ -2,6 +2,7 @@ package org.usfirst.frc.team7287.robot;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
+//		Drive script to move the robot and log it's speed and movement
 public class Drive {
 	private DifferentialDrive robot;
 	private boolean shouldRamp;
