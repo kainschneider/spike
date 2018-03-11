@@ -13,7 +13,7 @@ import org.usfirst.frc.team7287.robot.ClawHeightSensor;
 import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 
-public class Robot extends IterativeRobot {
+public class RobotTempFix extends IterativeRobot {
 	private DifferentialDrive spike;
 	private Joystick stick;
 	Timer timer;
@@ -25,8 +25,12 @@ public class Robot extends IterativeRobot {
 	double teleopSpeed;
 	ClawHeightSensor clawHeightSensor;
 	CANTalon clawMotor;
+	CANTalon verticalMotor;
 	boolean shouldGrab; 
-	DigitalInput limitSwitch;
+	DigitalInput bottomLimit;
+	DigitalInput topLimit;
+	
+	
 	
 	@Override
 	public void robotInit() {
@@ -38,12 +42,46 @@ public class Robot extends IterativeRobot {
 		clawHeightSensor = new ClawHeightSensor(0);
 		clawMotor = new CANTalon(0);
 		clawMotor.enable();
+		verticalMotor = new CANTalon(1);
+		verticalMotor.enable();
 		int mode = CANTalon.TalonControlMode.PercentVbus.ordinal();
 		clawMotor.setControlMode(mode);
 		shouldGrab = false;
-		limitSwitch = new DigitalInput(0);
+		bottomLimit = new DigitalInput(0);
+		topLimit = new DigitalInput (1);
 	}
-	
+//	private void clawVerticalSafteyCheck() {
+//		if (topLimit){
+//		goUp = false;
+//		}
+//		else{
+//		goUp = true;
+//		}
+//		
+//		if(bottomLimit){
+//		goDown = false;
+//		}
+//		else{
+//		goDown = true;
+//		}
+//	}
+//	
+	private void upDown(double move){
+		verticalMotor.set(move);
+//		
+//		if (move > 0) {
+//		verticalMotor.set(move);
+//		System.out.println("Going up at a speed of");
+//			
+//    	}
+//		else if (move < 0){
+//		verticalMotor.set(move);
+//		System.out.println("Going down at a speed of" );
+//		}
+//		else{
+//		verticalMotor.set(0);	
+//		}
+	}
 	
 
 //	private void clawVerticalSafteyCheck(DigitalInput topSwitch, DigitalInput bottomSwitch, CANTalon motor) {
@@ -106,21 +144,28 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-		System.out.println("was pushed: " + limitSwitch.get());
 //		clawHeightSensor.readClawValues();
-		if (stick.getRawButton(1)) {
-			grab(0.3);
+//		if (stick.getRawButton(1)) {
+//			grab(0.3);
+//		}
+//		if (stick.getRawButton(2)) {
+//			grab(-0.3);
+//		}
+		if (stick.getRawButton(3)){
+	    	upDown(1.0);
 		}
-		if (stick.getRawButton(2)) {
-			grab(-0.3);
+		else if(stick.getRawButton(4)){
+    		upDown(-0.5);
+		}
+		else {
+			upDown(0);
 		}
 	//		Speed gearing system to swap between precision speed and high speed when right bumper is pressed
 		if (stick.getRawButton(6)) {
 			teleopSpeed = (teleopSpeed == 0.50) ? 1.0 : 0.65;
 		}
-		spike.arcadeDrive(-stick.getY()*teleopSpeed, stick.getRawAxis(2)*teleopSpeed);
+		spike.arcadeDrive(stick.getY()*teleopSpeed, stick.getRawAxis(2)*teleopSpeed);
 //		spike.arcadeDrive(-stick.getY()*teleopSpeed, stick.getX()*teleopSpeed);
 //		clawVerticalSafteyCheck(bottomSwitch, topSwitch, verticalMotor);
-		
+		}
 	}
-}
