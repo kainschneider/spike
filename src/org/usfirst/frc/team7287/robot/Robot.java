@@ -46,6 +46,7 @@ public class Robot extends IterativeRobot {
 		verticalMotor.enable();
 		int mode = CANTalon.TalonControlMode.PercentVbus.ordinal();
 		clawMotor.setControlMode(mode);
+		verticalMotor.setControlMode(mode);
 		shouldGrab = false;
 		bottomLimit = new DigitalInput(0);
 		topLimit = new DigitalInput (1);
