@@ -44,7 +44,9 @@ public class Robot extends IterativeRobot {
 		limitSwitch = new DigitalInput(0);
 	}
 	
-	
+	public static double mapRange(double analogLow, double analogHigh, double digitalLow, double digitalHigh, double input){
+		return digitalLow + ((input - analogLow)*(digitalHigh - digitalLow))/(analogHigh - analogLow);
+	}
 
 //	private void clawVerticalSafteyCheck(DigitalInput topSwitch, DigitalInput bottomSwitch, CANTalon motor) {
 //		if(topswitch.get() || bottomswitch.get()) {
