@@ -51,45 +51,23 @@ public class Robot extends IterativeRobot {
 		bottomLimit = new DigitalInput(0);
 		topLimit = new DigitalInput (1);
 	}
-//	private void clawVerticalSafteyCheck() {
-//		if (topLimit){
-//		goUp = false;
-//		}
-//		else{
-//		goUp = true;
-//		}
-//		
-//		if(bottomLimit){
-//		goDown = false;
-//		}
-//		else{
-//		goDown = true;
-//		}
-//	}
-//	
+	
 	private void upDown(double move){
 		verticalMotor.set(move);
-//		
-//		if (move > 0) {
-//		verticalMotor.set(move);
-//		System.out.println("Going up at a speed of");
-//			
-//    	}
-//		else if (move < 0){
-//		verticalMotor.set(move);
-//		System.out.println("Going down at a speed of" );
-//		}
-//		else{
-//		verticalMotor.set(0);	
-//		}
+		
+		if (move > 0) {
+		verticalMotor.set(move);
+		System.out.println("Going up at a speed of" + move);
+			
+    	}
+		else if (move < 0){
+		verticalMotor.set(move);
+		System.out.println("Going down at a speed of" + move);
+		}
+		else{
+		verticalMotor.set(0);	
+		}
 	}
-	
-
-//	private void clawVerticalSafteyCheck(DigitalInput topSwitch, DigitalInput bottomSwitch, CANTalon motor) {
-//		if(topswitch.get() || bottomswitch.get()) {
-//			motor.set(0.0);
-//			}
-//		}
 	
 	private void grab(double speed) {
 		clawMotor.set(-speed);
@@ -110,7 +88,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		initialCubeDrop();
-//		clawVerticalSafteyCheck(bottomSwitch, topSwitch, verticalMotor);
+
 	}
 	
 //		Autonomous initial cube drop procedure, moves robot forwards 10' and drops cube into claws
@@ -145,15 +123,15 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-//		clawHeightSensor.readClawValues();
-//		if (stick.getRawButton(1)) {
-//			grab(0.3);
-//		}
-//		if (stick.getRawButton(2)) {
-//			grab(-0.3);
-//		}
+		clawHeightSensor.readClawValues();
+		if (stick.getRawButton(1)) {
+			grab(0.3);
+		}
+		if (stick.getRawButton(2)) {
+			grab(-0.3);
+		}
 		if (stick.getRawButton(3)){
-	    	upDown(1.0);
+	    	upDown(0.8);
 		}
 		else if(stick.getRawButton(4)){
     		upDown(-0.5);
@@ -167,6 +145,5 @@ public class Robot extends IterativeRobot {
 		}
 		spike.arcadeDrive(stick.getY()*teleopSpeed, stick.getRawAxis(2)*teleopSpeed);
 //		spike.arcadeDrive(-stick.getY()*teleopSpeed, stick.getX()*teleopSpeed);
-//		clawVerticalSafteyCheck(bottomSwitch, topSwitch, verticalMotor);
 		}
 	}
