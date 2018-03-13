@@ -55,12 +55,12 @@ public class Robot extends IterativeRobot {
 	private void upDown(double move){
 		verticalMotor.set(move);
 		
-		if (move > 0) {
+		if (move > 0 && !tomLimit) {
 		verticalMotor.set(move);
 		System.out.println("Going up at a speed of" + move);
 			
     	}
-		else if (move < 0){
+		else if (move < 0 && !bottomLimit){
 		verticalMotor.set(move);
 		System.out.println("Going down at a speed of" + move);
 		}
