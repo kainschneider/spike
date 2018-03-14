@@ -8,9 +8,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.usfirst.frc.team7287.robot.Drive;
 import org.usfirst.frc.team7287.robot.ClawHeightSensor;
-
-//Note CANTalon is deprecated and I still don't care.
-import com.ctre.CANTalon;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Robot extends IterativeRobot {
@@ -25,7 +24,7 @@ public class Robot extends IterativeRobot {
 	private Drive drive;
 	double teleopSpeed;
 	ClawHeightSensor clawHeightSensor;
-	CANTalon clawMotor;
+	TalonSRX clawMotor;
 	boolean shouldGrab; 
 	DigitalInput limitSwitch;
 	
@@ -38,10 +37,7 @@ public class Robot extends IterativeRobot {
 		drive = new Drive(spike, false);
 		teleopSpeed = 1.0;
 		clawHeightSensor = new ClawHeightSensor(0);
-		clawMotor = new CANTalon(0);
-		clawMotor.enable();
-		int mode = CANTalon.TalonControlMode.PercentVbus.ordinal();
-		clawMotor.setControlMode(mode);
+		clawMotor = new TalonSRX(0);
 		shouldGrab = false;
 		limitSwitch = new DigitalInput(0);
 	}
@@ -57,12 +53,12 @@ public class Robot extends IterativeRobot {
 //		}
 	
 	private void grab(double speed) {
-		clawMotor.set(-speed);
+		clawMotor.set(ControlMode.PercentOutput, -speed);
 	}
 	private void drop() {
-		clawMotor.stopMotor();
+//		clawMotor.stopMotor();
+		clawMotor.set(ControlMode.PercentOutput, 0);
 	}
-	
 	@Override
 	public void autonomousInit() {
 		timeFactor = 1;
