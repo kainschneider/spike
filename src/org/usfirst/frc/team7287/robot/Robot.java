@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 public class Robot extends IterativeRobot {
 	private DifferentialDrive spike;
 	private Joystick stick;
+	private Joystick gantryController;
 	Timer timer;
 	double turnSpeed = 0.46;
 	double linearSpeed = 0.5;
@@ -32,6 +33,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		spike = new DifferentialDrive(new Spark(0), new Spark(1));
 		stick = new Joystick(0);
+		gantryController = new Joystick(1);
 		timer = new Timer();
 		drive = new Drive(spike, false);
 		teleopSpeed = 0.50;
@@ -110,16 +112,24 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		System.out.println("was pushed: " + limitSwitch.get());
 //		clawHeightSensor.readClawValues();
-		if (stick.getRawButton(1)) {
-			grab(0.3);
+
+//	claw control
+		if (gantryController.getRawAxis(1)) {
+			grab(gantryController.getRawAxis(1));
 		}
-		if (stick.getRawButton(2)) {
-			grab(-0.3);
+		else {
+			grab(0);
 		}
-	//		Speed gearing system to swap between precision speed and high speed when right bumper is pressed
-		if (stick.getRawButton(6)) {
-			teleopSpeed = (teleopSpeed == 0.50) ? 1.0 : 0.65;
-		}
+//	Gantry Vertical control WILL ONLY WORK ONCE MERGED
+//		if (gantryController.getRawAxis(3)){
+//		verticalMotor(gantryController.getRawAxis(1));
+//		}
+		
+
+//		Speed gearing system to swap between precision speed and high speed when right bumper is pressed
+//		if (stick.getRawButton(6)) {
+//			teleopSpeed = (teleopSpeed == 0.50) ? 1.0 : 0.65;
+//		}
 		spike.arcadeDrive(-stick.getY()*teleopSpeed, stick.getRawAxis(2)*teleopSpeed);
 //		spike.arcadeDrive(-stick.getY()*teleopSpeed, stick.getX()*teleopSpeed);
 //		clawVerticalSafteyCheck(bottomSwitch, topSwitch, verticalMotor);
