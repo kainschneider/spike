@@ -116,7 +116,7 @@ public class Robot extends IterativeRobot {
 	}
 	
 	@Override
-	public void teleopPeriodic() {		
+	public void teleopPeriodic() {
 		clawHeightSensor.readClawValues();
 		if (stick.getRawButton(1)) {
 			grab(0.3);

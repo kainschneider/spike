@@ -16,8 +16,5 @@ public class ClawHeightSensor{
 		int rawValue = analogInput.getValue();
 		double voltsValue = analogInput.getVoltage();
 		double distanceCM = (voltsValue/0.0048828125)-58.5;
-		System.out.println("raw value: "+ rawValue);
-		System.out.println("Voltage value: "+ voltsValue);
-		System.out.println("Distance: "+ distanceCM + "cm");
 	}
 }
