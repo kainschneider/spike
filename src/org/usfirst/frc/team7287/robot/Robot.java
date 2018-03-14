@@ -36,7 +36,7 @@ public class Robot extends IterativeRobot {
 		gantryController = new Joystick(1);
 		timer = new Timer();
 		drive = new Drive(spike, false);
-		teleopSpeed = 0.50;
+		teleopSpeed = 1.0;
 		clawHeightSensor = new ClawHeightSensor(0);
 		clawMotor = new CANTalon(0);
 		clawMotor.enable();
@@ -114,7 +114,7 @@ public class Robot extends IterativeRobot {
 //		clawHeightSensor.readClawValues();
 
 //	claw control
-		if (gantryController.getRawAxis(1)) {
+		if (gantryController.getRawAxis(1) != 0) {
 			grab(gantryController.getRawAxis(1));
 		}
 		else {
@@ -130,7 +130,7 @@ public class Robot extends IterativeRobot {
 //		if (stick.getRawButton(6)) {
 //			teleopSpeed = (teleopSpeed == 0.50) ? 1.0 : 0.65;
 //		}
-		spike.arcadeDrive(-stick.getY()*teleopSpeed, stick.getRawAxis(2)*teleopSpeed);
+		spike.arcadeDrive(stick.getY()*teleopSpeed, stick.getRawAxis(2)*teleopSpeed);
 //		spike.arcadeDrive(-stick.getY()*teleopSpeed, stick.getX()*teleopSpeed);
 //		clawVerticalSafteyCheck(bottomSwitch, topSwitch, verticalMotor);
 	}
