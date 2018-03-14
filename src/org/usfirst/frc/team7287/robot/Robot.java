@@ -113,7 +113,7 @@ public class Robot extends IterativeRobot {
 		System.out.println("was pushed: " + limitSwitch.get());
 //		clawHeightSensor.readClawValues();
 
-//	claw control
+//	gantry/claw control
 		if (gantryController.getRawAxis(1) != 0) {
 			grab(gantryController.getRawAxis(1));
 		}
