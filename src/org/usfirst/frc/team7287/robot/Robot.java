@@ -8,9 +8,11 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.usfirst.frc.team7287.robot.Drive;
 import org.usfirst.frc.team7287.robot.ClawHeightSensor;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 //Note CANTalon is deprecated and I still don't care.
-import com.ctre.CANTalon;
+//import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Robot extends IterativeRobot {
@@ -24,8 +26,10 @@ public class Robot extends IterativeRobot {
 	private Drive drive;
 	double teleopSpeed;
 	ClawHeightSensor clawHeightSensor;
-	CANTalon clawMotor;
-	CANTalon verticalMotor;
+	TalonSRX clawMotor;
+	TalonSRX verticalMotor;
+//	CANTalon clawMotor;
+//	CANTalon verticalMotor;
 	boolean shouldGrab; 
 	DigitalInput bottomLimit;
 	DigitalInput topLimit;
@@ -40,40 +44,30 @@ public class Robot extends IterativeRobot {
 		drive = new Drive(spike, false);
 		teleopSpeed = 0.50;
 		clawHeightSensor = new ClawHeightSensor(0);
-		clawMotor = new CANTalon(0);
-		clawMotor.enable();
-		verticalMotor = new CANTalon(1);
-		verticalMotor.enable();
-		int mode = CANTalon.TalonControlMode.PercentVbus.ordinal();
-		clawMotor.setControlMode(mode);
-		verticalMotor.setControlMode(mode);
+		clawMotor = new TalonSRX(0);
+		verticalMotor = new TalonSRX(1);
+//		int mode = CANTalon.TalonControlMode.PercentVbus.ordinal();
+//		clawMotor.setControlMode(mode);
+//		verticalMotor.setControlMode(mode);
+//		
+//		clawMotor.enable();
+//		verticalMotor.enable();
 		shouldGrab = false;
 		bottomLimit = new DigitalInput(0);
 		topLimit = new DigitalInput (1);
 	}
 	
 	private void upDown(double move){
-		verticalMotor.set(move);
 		
-		if (move > 0) {
-		verticalMotor.set(move);
-		System.out.println("Going up at a speed of" + move);
-			
-    	}
-		else if (move < 0){
-		verticalMotor.set(move);
-		System.out.println("Going down at a speed of" + move);
-		}
-		else{
-		verticalMotor.set(0);	
-		}
+		verticalMotor.set(ControlMode.PercentOutput,-move);
 	}
 	
 	private void grab(double speed) {
-		clawMotor.set(-speed);
+		clawMotor.set(ControlMode.PercentOutput, -speed);
 	}
 	private void drop() {
-		clawMotor.stopMotor();
+//		clawMotor.stopMotor();
+		clawMotor.set(ControlMode.PercentOutput, 0);
 	}
 	
 	@Override
@@ -122,7 +116,7 @@ public class Robot extends IterativeRobot {
 	}
 	
 	@Override
-	public void teleopPeriodic() {
+	public void teleopPeriodic() {		
 		clawHeightSensor.readClawValues();
 		if (stick.getRawButton(1)) {
 			grab(0.3);
