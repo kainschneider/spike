@@ -76,7 +76,7 @@ public class Robot extends IterativeRobot {
 	
 //		Autonomous initial cube drop procedure, moves robot forwards 10' and drops cube into claws
 	private void initialCubeDrop() {
-		double driveTime = 2.5;
+		double driveTime = 3.0;
 		double superSpeed = 1.0;
 		double fallTime = 0.25;
 		if (timer.get() < driveTime * 0.1) {
@@ -84,7 +84,8 @@ public class Robot extends IterativeRobot {
 		} else if(timer.get() < driveTime * fallTime && timer.get() > driveTime * 0.1) {
 			drive.stop(); 
 		} else if(timer.get() > driveTime * fallTime && timer.get() < driveTime * 1.0) {
-			drive.forward(0.5);
+			drive.forward(1.0);
+			grab(0.5);
 		} else {
 			drive.stop();
 		}
