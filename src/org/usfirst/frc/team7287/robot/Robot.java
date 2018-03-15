@@ -11,13 +11,12 @@ import org.usfirst.frc.team7287.robot.ClawHeightSensor;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
-//Note CANTalon is deprecated and I still don't care.
-//import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Robot extends IterativeRobot {
 	private DifferentialDrive spike;
 	private Joystick stick;
+	private Joystick gantryController;
 	Timer timer;
 	double turnSpeed = 0.46;
 	double linearSpeed = 0.5;
@@ -28,8 +27,7 @@ public class Robot extends IterativeRobot {
 	ClawHeightSensor clawHeightSensor;
 	TalonSRX clawMotor;
 	TalonSRX verticalMotor;
-//	CANTalon clawMotor;
-//	CANTalon verticalMotor;
+
 	boolean shouldGrab; 
 	DigitalInput bottomLimit;
 	DigitalInput topLimit;
@@ -40,28 +38,24 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		spike = new DifferentialDrive(new Spark(0), new Spark(1));
 		stick = new Joystick(0);
+		gantryController = new Joystick(1);
 		timer = new Timer();
 		drive = new Drive(spike, false);
-		teleopSpeed = 0.50;
+		teleopSpeed = 1.0;
 		clawHeightSensor = new ClawHeightSensor(0);
 		clawMotor = new TalonSRX(0);
 		verticalMotor = new TalonSRX(1);
-//		int mode = CANTalon.TalonControlMode.PercentVbus.ordinal();
-//		clawMotor.setControlMode(mode);
-//		verticalMotor.setControlMode(mode);
-//		
-//		clawMotor.enable();
-//		verticalMotor.enable();
+
 		shouldGrab = false;
 		bottomLimit = new DigitalInput(0);
 		topLimit = new DigitalInput (1);
 	}
 	
+
 	private void upDown(double move){
 		
 		verticalMotor.set(ControlMode.PercentOutput,-move);
-	}
-	
+	}	
 	private void grab(double speed) {
 		clawMotor.set(ControlMode.PercentOutput, -speed);
 	}
@@ -69,7 +63,6 @@ public class Robot extends IterativeRobot {
 //		clawMotor.stopMotor();
 		clawMotor.set(ControlMode.PercentOutput, 0);
 	}
-	
 	@Override
 	public void autonomousInit() {
 		timeFactor = 1;
@@ -117,27 +110,23 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-		clawHeightSensor.readClawValues();
-		if (stick.getRawButton(1)) {
-			grab(0.3);
+		System.out.println(gantryController.getRawAxis(3));
+		//	gantry/claw control
+		if (gantryController.getRawAxis(1) != 0) {
+			grab(gantryController.getRawAxis(1));
 		}
-		if (stick.getRawButton(2)) {
-			grab(-0.3);
+		else {
+			grab(0);
 		}
-		if (stick.getRawButton(3)){
-	    	upDown(0.8);
-		}
-		else if(stick.getRawButton(4)){
-    		upDown(-0.5);
+
+		if (gantryController.getRawAxis(3) != 0){
+			
+			upDown(gantryController.getRawAxis(3));
 		}
 		else {
 			upDown(0);
 		}
-	//		Speed gearing system to swap between precision speed and high speed when right bumper is pressed
-		if (stick.getRawButton(6)) {
-			teleopSpeed = (teleopSpeed == 0.50) ? 1.0 : 0.65;
-		}
+		
 		spike.arcadeDrive(stick.getY()*teleopSpeed, stick.getRawAxis(2)*teleopSpeed);
-//		spike.arcadeDrive(-stick.getY()*teleopSpeed, stick.getX()*teleopSpeed);
 		}
 	}
