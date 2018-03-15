@@ -37,13 +37,9 @@ public class Robot extends IterativeRobot {
 	String closeSwitchSide;
 	String farSwitchSide;
 	String scaleSide;
-	String scaleAndSwitchSides = DriverStation.getInstance().getGameSpecificMessage()
+	String scaleAndSwitchSides;
 	
-	if (scaleAndSwitchSides.length() > 0) {
-		closeSwitchSide = scaleAndSwitchSides(0);
-		scaleSide = scaleAndSwitchSides(1);
-		farSwitchSide = scaleAndSwitchSides(2);
-	}
+	
 	
 	
 	@Override
@@ -61,6 +57,11 @@ public class Robot extends IterativeRobot {
 		shouldGrab = false;
 		bottomLimit = new DigitalInput(0);
 		topLimit = new DigitalInput (1);
+		
+		scaleAndSwitchSides = DriverStation.getInstance().getGameSpecificMessage();
+		closeSwitchSide = scaleAndSwitchSides(0);
+		scaleSide = scaleAndSwitchSides(1);
+		farSwitchSide = scaleAndSwitchSides(2);
 	}
 	
 
@@ -72,7 +73,6 @@ public class Robot extends IterativeRobot {
 		clawMotor.set(ControlMode.PercentOutput, -speed);
 	}
 	private void drop() {
-//		clawMotor.stopMotor();
 		clawMotor.set(ControlMode.PercentOutput, 0);
 	}
 	@Override
@@ -106,13 +106,13 @@ public class Robot extends IterativeRobot {
 			drive.forward(superSpeed * 0.35);
 		} else if (timer.get() > 2.2 && timer.get < 2.7 && startingPosition == "L") {
 			if (closeSwitchSide == "L") {
-				drive.turn(right, 0.46)
+				drive.turn(right, 0.46);
 			} else {
 				drive.stop();
 				}
 		} else if (timer.get() > 2.2 && timer.get < 2.7 && startingPosition == "R") {
 			if (closeSwitchSide == "R") {
-				drive.turn(left, 0.46)
+				drive.turn("left", 0.46);
 			} else {
 				drive.stop();
 			}
