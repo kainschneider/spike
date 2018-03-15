@@ -32,6 +32,18 @@ public class Robot extends IterativeRobot {
 	DigitalInput bottomLimit;
 	DigitalInput topLimit;
 	
+	// strings and things
+	String startingPositon = "L"; //LEFT = L, R = RIGHT, MIDDLE = M
+	String closeSwitchSide;
+	String farSwitchSide;
+	String scaleSide;
+	String scaleAndSwitchSides = DriverStation.getInstance().getGameSpecificMessage()
+	
+	if (scaleAndSwitchSides.length() > 0) {
+		closeSwitchSide = scaleAndSwitchSides(0);
+		scaleSide = scaleAndSwitchSides(1);
+		farSwitchSide = scaleAndSwitchSides(2);
+	}
 	
 	
 	@Override
@@ -74,7 +86,12 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousPeriodic() {
-		initialAutonomous();
+		if (startingPosition == "M") {
+			drive.stop();
+		} else {
+			initialAutonomous();
+		}
+
 
 	}
 	
@@ -82,11 +99,23 @@ public class Robot extends IterativeRobot {
 	private void initialAutonomous() {
 		double superSpeed = 1.0;
 		if (timer.get() < 0.5) {
-			drive.forward(superSpeed * 0.5);
+			drive.forward(superSpeed * 0.6);
 		} else if(timer.get() < 1.0 && timer.get() > 0.5) {
-			drive.forward(superSpeed * 0.75); 
-		} else if(timer.get() > 1.0 && timer.get() < 2.5) {
-			drive.forward(superSpeed);
+			drive.forward(superSpeed * 0.80); 
+		} else if(timer.get() > 1.0 && timer.get() < 2.2) {
+			drive.forward(superSpeed * 0.35);
+		} else if (timer.get() > 2.2 && timer.get < 2.7 && startingPosition == "L") {
+			if (closeSwitchSide == "L") {
+				drive.turn(right, 0.46)
+			} else {
+				drive.stop();
+				}
+		} else if (timer.get() > 2.2 && timer.get < 2.7 && startingPosition == "R") {
+			if (closeSwitchSide == "R") {
+				drive.turn(left, 0.46)
+			} else {
+				drive.stop();
+			}
 		} else {
 			drive.stop();
 		}
