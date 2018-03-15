@@ -110,7 +110,6 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void teleopPeriodic() {
-		System.out.println(gantryController.getRawAxis(3));
 		//	gantry/claw control
 		if (gantryController.getRawAxis(1) != 0) {
 			grab(gantryController.getRawAxis(1));
