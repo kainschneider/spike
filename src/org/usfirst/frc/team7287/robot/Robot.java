@@ -31,15 +31,13 @@ public class Robot extends IterativeRobot {
 	boolean shouldGrab; 
 	DigitalInput bottomLimit;
 	DigitalInput topLimit;
-	
-	// strings and things
-	String startingPositon = "L"; //LEFT = L, R = RIGHT, MIDDLE = M
+	String startingPosition = "L"; //LEFT = L, R = RIGHT, MIDDLE = M
 	String closeSwitchSide;
 	String farSwitchSide;
 	String scaleSide;
-	String scaleAndSwitchSides;
+	String scaleAndSwitchSides = DriverStation.getInstance().getGameSpecificMessage();
 	
-	
+
 	
 	
 	@Override
@@ -57,11 +55,13 @@ public class Robot extends IterativeRobot {
 		shouldGrab = false;
 		bottomLimit = new DigitalInput(0);
 		topLimit = new DigitalInput (1);
+		System.out.println(this.scaleAndSwitchSides);
+		this.closeSwitchSide = this.scaleAndSwitchSides.charAt(0);
 		
-		scaleAndSwitchSides = DriverStation.getInstance().getGameSpecificMessage();
-//		closeSwitchSide = scaleAndSwitchSides(0);
-//		scaleSide = scaleAndSwitchSides(1);
-//		farSwitchSide = scaleAndSwitchSides(2);
+
+//		closeSwitchSide = scaleAndSwitchSides.charAt(0);
+//		scaleSide = scaleAndSwitchSides.charAt(1);
+//		farSwitchSide = scaleAndSwitchSides.charAt(2);
 	}
 	
 
@@ -86,13 +86,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousPeriodic() {
-		if (startingPosition == "M") {
-			drive.stop();
-		} else {
 			initialAutonomous();
-		}
-
-
 	}
 	
 //		Autonomous initial cube drop procedure, moves robot forwards 10' and drops cube into claws
