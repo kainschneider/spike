@@ -82,11 +82,11 @@ public class Robot extends IterativeRobot {
 	private void initialAutonomous() {
 		double superSpeed = 1.0;
 		if (timer.get() < 0.5) {
-			drive.forward(superSpeed * 0.5);
+			drive.forward(superSpeed * 0.6);
 		} else if(timer.get() < 1.0 && timer.get() > 0.5) {
-			drive.forward(superSpeed * 0.75); 
+			drive.forward(superSpeed * 0.80); 
 		} else if(timer.get() > 1.0 && timer.get() < 2.2) {
-			drive.forward(superSpeed * 0.5);
+			drive.forward(superSpeed * 0.35);
 		} else {
 			drive.stop();
 		}
