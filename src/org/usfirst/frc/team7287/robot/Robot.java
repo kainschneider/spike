@@ -85,8 +85,8 @@ public class Robot extends IterativeRobot {
 			drive.forward(superSpeed * 0.5);
 		} else if(timer.get() < 1.0 && timer.get() > 0.5) {
 			drive.forward(superSpeed * 0.75); 
-		} else if(timer.get() > 1.0 && timer.get() < 2.5) {
-			drive.forward(superSpeed);
+		} else if(timer.get() > 1.0 && timer.get() < 2.2) {
+			drive.forward(superSpeed * 0.5);
 		} else {
 			drive.stop();
 		}
