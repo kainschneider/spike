@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 
 public class Robot extends IterativeRobot {
 	private DifferentialDrive spike;
@@ -27,7 +28,6 @@ public class Robot extends IterativeRobot {
 	ClawHeightSensor clawHeightSensor;
 	TalonSRX clawMotor;
 	TalonSRX verticalMotor;
-
 	boolean shouldGrab; 
 	DigitalInput bottomLimit;
 	DigitalInput topLimit;
@@ -74,25 +74,29 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousPeriodic() {
-		initialCubeDrop();
+		initialAutonomous();
 
 	}
 	
 //		Autonomous initial cube drop procedure, moves robot forwards 10' and drops cube into claws
-	private void initialCubeDrop() {
-		double driveTime = 2.5;
+	private void initialAutonomous() {
 		double superSpeed = 1.0;
-		double fallTime = 0.25;
-		if (timer.get() < driveTime * 0.1) {
+		if (timer.get() < 0.5) {
+			drive.forward(superSpeed * 0.5);
+		} else if(timer.get() < 1.0 && timer.get() > 0.5) {
+			drive.forward(superSpeed * 0.75); 
+		} else if(timer.get() > 1.0 && timer.get() < 2.5) {
 			drive.forward(superSpeed);
-		} else if(timer.get() < driveTime * fallTime && timer.get() > driveTime * 0.1) {
-			drive.stop(); 
-		} else if(timer.get() > driveTime * fallTime && timer.get() < driveTime * 1.0) {
-			drive.forward(0.5);
 		} else {
 			drive.stop();
 		}
 	}
+	
+//	private void autonomousLeft() {
+//		if (timer.get < 0.25) {
+//			drive.forward(1.0);
+//		} else if (timer.get < )
+//	}
 	
 	private void calibrate() {
 		if (timer.get() > timeFactor + timeFix - 1.0 && timer.get() < timeFactor + timeFix) {
