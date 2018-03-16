@@ -55,10 +55,9 @@ public class Robot extends IterativeRobot {
 		bottomLimit = new DigitalInput(0);
 		topLimit = new DigitalInput (1);
 		System.out.println(this.scaleAndSwitchSides);
-		this.closeSwitchSide = String.valueOf(this.scaleAndSwitchSides.charAt(0));
 		
-
-
+		
+		this.closeSwitchSide = String.valueOf(this.scaleAndSwitchSides.charAt(0));
 		this.scaleSide = String.valueOf(scaleAndSwitchSides.charAt(1));
 		this.farSwitchSide = String.valueOf(scaleAndSwitchSides.charAt(2));
 	}
@@ -89,17 +88,17 @@ public class Robot extends IterativeRobot {
 	}
 	
 	private void autonomousSwitchMiddle(String switchSide) {
-		if (switchSide == "L" && timer.get() < 0.25) {
-			drive.turn("left", 0.46);
-		} else if (switchSide == "L" && timer.get() > 0.5 && timer.get() < 1.0) {
-			drive.forward(0.6);
-		} else if (switchSide == "L" && timer.get() > 1.0 && timer.get() < 1.25) {
+		if (switchSide == "R" && timer.get() < 0.25) {
 			drive.turn("right", 0.46);
-		} else if (switchSide == "L" && timer.get() > 1.25 && timer.get() < 1.75) {
+		} else if (switchSide == "R" && timer.get() > 0.5 && timer.get() < 1.0) {
+			drive.forward(0.6);
+		} else if (switchSide == "R" && timer.get() > 1.0 && timer.get() < 1.25) {
+			drive.turn("left", 0.46);
+		} else if (switchSide == "R" && timer.get() > 1.25 && timer.get() < 1.75) {
 			drive.forward(0.8);
-		} else if (switchSide == "L" && timer.get() > 1.75 && timer.get() < 2.95) {
+		} else if (switchSide == "R" && timer.get() > 1.75 && timer.get() < 2.95) {
 			drive.forward(0.35);
-		} else if (switchSide == "R") {
+		} else if (switchSide == "L") {
 			initialAutonomous(2.95);
 		} else {
 			drive.stop();
