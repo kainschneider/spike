@@ -84,7 +84,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousPeriodic() {
-			autonomousSwitchMiddle(this.closeSwitchSide);
+			initialAutonomous();
 	}
 	
 	private void autonomousSwitchMiddle(String switchSide) {
@@ -99,20 +99,20 @@ public class Robot extends IterativeRobot {
 		} else if (switchSide == "R" && timer.get() > 1.75 && timer.get() < 2.95) {
 			drive.forward(0.35);
 		} else if (switchSide == "L") {
-			initialAutonomous(2.95);
+			initialAutonomous();
 		} else {
 			drive.stop();
 		}
 	}
 	
 //		Autonomous initial cube drop procedure, moves robot forwards 10' and drops cube into claws
-	private void initialAutonomous(double timeFix) {
+	private void initialAutonomous() {
 		double superSpeed = 1.0;
-		if (timer.get() < 0.5 + timeFix && timer.get()> timeFix) {
+		if (timer.get() < 0.5) {
 			drive.forward(superSpeed * 0.6);
-		} else if(timer.get() < 1.0 +timeFix && timer.get() > 0.5+ timeFix) {
+		} else if(timer.get() < 1.0 && timer.get() > 0.5) {
 			drive.forward(superSpeed * 0.80); 
-		} else if(timer.get() > 1.0 + timeFix&& timer.get() < 2.2 + timeFix) {
+		} else if(timer.get() > 1.0 && timer.get() < 2.2) {
 			drive.forward(superSpeed * 0.35);
 //		} else if (timer.get() > 2.2 && timer.get < 2.7 && startingPosition == "L") {
 //			if (closeSwitchSide == "L") {
