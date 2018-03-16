@@ -52,13 +52,14 @@ public class Robot extends IterativeRobot {
 	}
 	
 
-	private void upDown(double move){
-		
+	private void upDown(double move){	
 		verticalMotor.set(ControlMode.PercentOutput,-move);
 	}	
+	
 	private void grab(double speed) {
-		clawMotor.set(ControlMode.PercentOutput, -speed);
+		clawMotor.set(ControlMode.PercentOutput, speed * 0.7);
 	}
+	
 	private void drop() {
 //		clawMotor.stopMotor();
 		clawMotor.set(ControlMode.PercentOutput, 0);
