@@ -32,7 +32,7 @@ public class Robot extends IterativeRobot {
 	DigitalInput bottomLimit;
 	DigitalInput topLimit;
 	String startingPosition = "L"; //LEFT = L, R = RIGHT, MIDDLE = M
-	String closeSwitchSide;
+	char closeSwitchSide;
 	String farSwitchSide;
 	String scaleSide;
 	String scaleAndSwitchSides = DriverStation.getInstance().getGameSpecificMessage();
@@ -86,17 +86,35 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousPeriodic() {
-			initialAutonomous();
+			autonomousSwitchMiddle(this.closeSwitchSide);
+	}
+	
+	private void autonomousSwitchMiddle(String switchSide) {
+		if (switchSide == "L" && timer.get() < 0.5) {
+			drive.turn("left", 0.46);
+		} else if (switchSide =="L" && timer.get() > 0.5 && timer.get() < 0.75) {
+			drive.forward(0.5);
+		} else if (switchSide == "L" && timer.get() > 0.75 && timer.get() < 1.25) {
+			drive.turn("right", 0.46);
+		} else if (switchSide == "R" && timer.get() < 0.5) {
+			drive.turn("right", 0.46);
+		} else if (switchSide =="R" && timer.get() > 0.5 && timer.get() < 0.75) {
+			drive.forward(0.5);
+		} else if (switchSide == "R" && timer.get() > 0.75 && timer.get() < 1.25) {
+			drive.turn("left", 0.46);
+		} else {
+			initialAutonomous(1.25);
+		}
 	}
 	
 //		Autonomous initial cube drop procedure, moves robot forwards 10' and drops cube into claws
-	private void initialAutonomous() {
+	private void initialAutonomous(double initTime) {
 		double superSpeed = 1.0;
-		if (timer.get() < 0.5) {
+		if (timer.get() < 0.5 + initTime && timer.get() > initTime) {
 			drive.forward(superSpeed * 0.6);
-		} else if(timer.get() < 1.0 && timer.get() > 0.5) {
+		} else if(timer.get() < 1.0 + initTime && timer.get() > 0.5 + initTime) {
 			drive.forward(superSpeed * 0.80); 
-		} else if(timer.get() > 1.0 && timer.get() < 2.2) {
+		} else if(timer.get() > 1.0 + initTime && timer.get() < 2.2 + initTime) {
 			drive.forward(superSpeed * 0.35);
 //		} else if (timer.get() > 2.2 && timer.get < 2.7 && startingPosition == "L") {
 //			if (closeSwitchSide == "L") {
