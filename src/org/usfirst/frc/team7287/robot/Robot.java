@@ -10,7 +10,6 @@ import org.usfirst.frc.team7287.robot.Drive;
 import org.usfirst.frc.team7287.robot.ClawHeightSensor;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 
@@ -32,7 +31,7 @@ public class Robot extends IterativeRobot {
 	DigitalInput bottomLimit;
 	DigitalInput topLimit;
 	String startingPosition = "L"; //LEFT = L, R = RIGHT, MIDDLE = M
-	char closeSwitchSide;
+	String closeSwitchSide;
 	String farSwitchSide;
 	String scaleSide;
 	String scaleAndSwitchSides = DriverStation.getInstance().getGameSpecificMessage();
@@ -56,12 +55,12 @@ public class Robot extends IterativeRobot {
 		bottomLimit = new DigitalInput(0);
 		topLimit = new DigitalInput (1);
 		System.out.println(this.scaleAndSwitchSides);
-		this.closeSwitchSide = this.scaleAndSwitchSides.charAt(0);
+		this.closeSwitchSide = String.valueOf(this.scaleAndSwitchSides.charAt(0));
 		
 
-//		closeSwitchSide = scaleAndSwitchSides.charAt(0);
-//		scaleSide = scaleAndSwitchSides.charAt(1);
-//		farSwitchSide = scaleAndSwitchSides.charAt(2);
+
+		this.scaleSide = String.valueOf(scaleAndSwitchSides.charAt(1));
+		this.farSwitchSide = String.valueOf(scaleAndSwitchSides.charAt(2));
 	}
 	
 
@@ -90,32 +89,31 @@ public class Robot extends IterativeRobot {
 	}
 	
 	private void autonomousSwitchMiddle(String switchSide) {
-		String.toCharArray()
-		if (switchSide == "L" && timer.get() < 0.5) {
+		if (switchSide == "L" && timer.get() < 0.25) {
 			drive.turn("left", 0.46);
-		} else if (switchSide =="L" && timer.get() > 0.5 && timer.get() < 0.675) {
-			drive.forward(0.5);
-		} else if (switchSide == "L" && timer.get() > 0.75 && timer.get() < 1.25) {
+		} else if (switchSide == "L" && timer.get() > 0.5 && timer.get() < 1.0) {
+			drive.forward(0.6);
+		} else if (switchSide == "L" && timer.get() > 1.0 && timer.get() < 1.25) {
 			drive.turn("right", 0.46);
-		} else if (switchSide == "R" && timer.get() < 0.5) {
-			drive.turn("right", 0.46);
-		} else if (switchSide =="R" && timer.get() > 0.5 && timer.get() < 0.675) {
-			drive.forward(0.5);
-		} else if (switchSide == "R" && timer.get() > 0.75 && timer.get() < 1.25) {
-			drive.turn("left", 0.46);
+		} else if (switchSide == "L" && timer.get() > 1.25 && timer.get() < 1.75) {
+			drive.forward(0.8);
+		} else if (switchSide == "L" && timer.get() > 1.75 && timer.get() < 2.95) {
+			drive.forward(0.35);
+		} else if (switchSide == "R") {
+			initialAutonomous();
 		} else {
-			initialAutonomous(1.25);
+			drive.stop();
 		}
 	}
 	
 //		Autonomous initial cube drop procedure, moves robot forwards 10' and drops cube into claws
-	private void initialAutonomous(double initTime) {
+	private void initialAutonomous() {
 		double superSpeed = 1.0;
-		if (timer.get() < 0.5 + initTime && timer.get() > initTime) {
+		if (timer.get() < 0.5) {
 			drive.forward(superSpeed * 0.6);
-		} else if(timer.get() < 1.0 + initTime && timer.get() > 0.5 + initTime) {
+		} else if(timer.get() < 1.0 && timer.get() > 0.5) {
 			drive.forward(superSpeed * 0.80); 
-		} else if(timer.get() > 1.0 + initTime && timer.get() < 2.2 + initTime) {
+		} else if(timer.get() > 1.0 && timer.get() < 2.2) {
 			drive.forward(superSpeed * 0.35);
 //		} else if (timer.get() > 2.2 && timer.get < 2.7 && startingPosition == "L") {
 //			if (closeSwitchSide == "L") {
