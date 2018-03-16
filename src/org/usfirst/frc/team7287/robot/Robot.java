@@ -105,6 +105,14 @@ public class Robot extends IterativeRobot {
 		}
 	}
 	
+	private void autonomousLeft(string switchColor) {
+		initialAutonomous()
+		if (switchColor == "L" && timer.get() > 2.2 && timer.get() < 2.7) {
+			drive.turn(right, 0.46);
+		} else {
+			drive.stop();
+		}
+	}
 //		Autonomous initial cube drop procedure, moves robot forwards 10' and drops cube into claws
 	private void initialAutonomous() {
 		double superSpeed = 1.0;
