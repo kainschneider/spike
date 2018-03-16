@@ -100,20 +100,20 @@ public class Robot extends IterativeRobot {
 		} else if (switchSide == "L" && timer.get() > 1.75 && timer.get() < 2.95) {
 			drive.forward(0.35);
 		} else if (switchSide == "R") {
-			initialAutonomous();
+			initialAutonomous(2.95);
 		} else {
 			drive.stop();
 		}
 	}
 	
 //		Autonomous initial cube drop procedure, moves robot forwards 10' and drops cube into claws
-	private void initialAutonomous() {
+	private void initialAutonomous(double timeFix) {
 		double superSpeed = 1.0;
-		if (timer.get() < 0.5) {
+		if (timer.get() < 0.5 + timeFix && timer.get()> timeFix) {
 			drive.forward(superSpeed * 0.6);
-		} else if(timer.get() < 1.0 && timer.get() > 0.5) {
+		} else if(timer.get() < 1.0 +timeFix && timer.get() > 0.5+ timeFix) {
 			drive.forward(superSpeed * 0.80); 
-		} else if(timer.get() > 1.0 && timer.get() < 2.2) {
+		} else if(timer.get() > 1.0 + timeFix&& timer.get() < 2.2 + timeFix) {
 			drive.forward(superSpeed * 0.35);
 //		} else if (timer.get() > 2.2 && timer.get < 2.7 && startingPosition == "L") {
 //			if (closeSwitchSide == "L") {
