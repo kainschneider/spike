@@ -53,7 +53,11 @@ public class Robot extends IterativeRobot {
 	
 
 	private void upDown(double move){	
-		verticalMotor.set(ControlMode.PercentOutput,-move);
+		move = -move; //invert move directions
+		if (move > 0) {
+			move = move * 0.5;
+		}
+		verticalMotor.set(ControlMode.PercentOutput, move);
 	}	
 	
 	private void grab(double speed) {
