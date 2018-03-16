@@ -90,15 +90,16 @@ public class Robot extends IterativeRobot {
 	}
 	
 	private void autonomousSwitchMiddle(String switchSide) {
+		String.toCharArray()
 		if (switchSide == "L" && timer.get() < 0.5) {
 			drive.turn("left", 0.46);
-		} else if (switchSide =="L" && timer.get() > 0.5 && timer.get() < 0.75) {
+		} else if (switchSide =="L" && timer.get() > 0.5 && timer.get() < 0.675) {
 			drive.forward(0.5);
 		} else if (switchSide == "L" && timer.get() > 0.75 && timer.get() < 1.25) {
 			drive.turn("right", 0.46);
 		} else if (switchSide == "R" && timer.get() < 0.5) {
 			drive.turn("right", 0.46);
-		} else if (switchSide =="R" && timer.get() > 0.5 && timer.get() < 0.75) {
+		} else if (switchSide =="R" && timer.get() > 0.5 && timer.get() < 0.675) {
 			drive.forward(0.5);
 		} else if (switchSide == "R" && timer.get() > 0.75 && timer.get() < 1.25) {
 			drive.turn("left", 0.46);
