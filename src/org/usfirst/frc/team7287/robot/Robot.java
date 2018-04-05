@@ -53,7 +53,7 @@ public class Robot extends IterativeRobot {
 	
 
 	private void upDown(double move){
-		if (move > 0) {
+		if (move > 0 && topLimit.get() == false) {
 		verticalMotor.set(ControlMode.PercentOutput,move);
 		}
 		else if (move < 0 && bottomLimit.get() == false) {
