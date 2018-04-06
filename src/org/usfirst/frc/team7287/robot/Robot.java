@@ -84,7 +84,6 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		int autoQue = 0;
 		boolean autoRun = true;
-		while(autoRun) {
 			if (closeSwitchSide == "R"){
 			initialAutonomous();		
 			}
@@ -92,9 +91,6 @@ public class Robot extends IterativeRobot {
 			drive.manualTurning(0.2,0.5);
 			Timer.delay(0.25);
 			}
-		}
-		initialAutonomous();
-
 	}
 	
 //		Autonomous initial cube drop procedure, moves robot forwards 10' and drops cube into claws
