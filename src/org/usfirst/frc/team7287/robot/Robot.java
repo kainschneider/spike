@@ -75,22 +75,20 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		timeFactor = 1;
 		timeFix = 0;
-		timer.reset();
-		timer.start();
 	}
 	
 	
 	@Override
 	public void autonomousPeriodic() {
 		int autoQue = 0;
-		boolean autoRun = true;
-			if (closeSwitchSide == "R"){
-			initialAutonomous();		
-			}
-			else if(closeSwitchSide == "L") {
-			drive.manualTurning(0.2,0.5);
-			Timer.delay(0.25);
-			}
+		initialAutonomous();	
+//			if (closeSwitchSide == "R"){
+//			initialAutonomous();		
+//			}
+//			else if(closeSwitchSide == "L") {
+//			drive.manualTurning(0.2,0.5);
+//			Timer.delay(0.25);
+//			}
 	}
 	
 //		Autonomous initial cube drop procedure, moves robot forwards 10' and drops cube into claws
