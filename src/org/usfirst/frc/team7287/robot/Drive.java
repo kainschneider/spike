@@ -20,7 +20,6 @@ public class Drive {
 	public void reverse(double speed) {
 		robot.tankDrive(-speed, -speed, shouldRamp);
 	}
-	
 	public void turn(String direction, double speed) {
 		switch(direction.toLowerCase()) {
 		case "right": 
@@ -30,4 +29,14 @@ public class Drive {
 		default:
 		}
 	}
-}
+	public void manualTurning(double speedL, double speedR) {
+		robot.tankDrive(speedL,speedR,shouldRamp);
+	}
+	public void smoothTurning(double speedOfLeftSide) {
+		//OKAY, I know this looks odd so let me explain
+		//It means that the power is divided up between the sides,
+		//so the speed you input wil go to the left side and what ever is left over
+		//will go to the other side
+		robot.tankDrive(speedOfLeftSide, 1 - speedOfLeftSide, shouldRamp);
+		}
+	}

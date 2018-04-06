@@ -31,8 +31,8 @@ public class Robot extends IterativeRobot {
 	boolean shouldGrab; 
 	DigitalInput bottomLimit;
 	DigitalInput topLimit;
-	string switchAndScaleSides = DriverStation.getInstance().getGameSpecificMessage();
-	string closeSwitchSide;
+	String switchAndScaleSides = DriverStation.getInstance().getGameSpecificMessage();
+	String closeSwitchSide;
 	
 	@Override
 	public void robotInit() {
@@ -49,7 +49,7 @@ public class Robot extends IterativeRobot {
 		shouldGrab = false;
 		bottomLimit = new DigitalInput(0);
 		topLimit = new DigitalInput (1);
-		this.closeSwitchSide = String.valueOf(this.scaleAndSwitchSides.char(0));
+		this.closeSwitchSide = String.valueOf(this.switchAndScaleSides.charAt(0));
 		System.out.println("Our side of each is: " + switchAndScaleSides);
 		System.out.println("Our side of the close switch is: " + closeSwitchSide);
 	}
@@ -86,28 +86,11 @@ public class Robot extends IterativeRobot {
 		boolean autoRun = true;
 		while(autoRun) {
 			if (closeSwitchSide == "R"){
-				switch (autoQue) {
-				case 0:
-					//Drive forward for 2.2 seconds
-					timer.start();
-					initialAutonomous();
-					if (timer.get >= 2.2) {
-					timer.stop();
-					timer.reset();
-					autoQue++;
-					}
-					break;
-				default: autoRun = false; drive.stop();
-				break;
-					}		
+			initialAutonomous();		
 			}
-			else if(switchSide == "L") {
-				switch (autoQue) {
-				case 0:
-					break;
-				default: autoRun = false;
-				drive.stop();
-				}
+			else if(closeSwitchSide == "L") {
+			drive.manualTurning(0.2,0.5);
+			Timer.delay(0.25);
 			}
 		}
 		initialAutonomous();
@@ -117,15 +100,13 @@ public class Robot extends IterativeRobot {
 //		Autonomous initial cube drop procedure, moves robot forwards 10' and drops cube into claws
 	private void initialAutonomous() {
 		double superSpeed = 1.0;
-		if (timer.get() < 0.5) {
 			drive.forward(superSpeed * 0.6);
-		} else if(timer.get() < 1.0 && timer.get() > 0.5) {
+			Timer.delay(0.5);
 			drive.forward(superSpeed * 0.80); 
-		} else if(timer.get() > 1.0 && timer.get() < 2.2) {
+			Timer.delay(0.5);
 			drive.forward(superSpeed * 0.35);
-		} else {
+			Timer.delay(1.2);
 			drive.stop();
-		}
 	}
 	
 //	private void autonomousLeft() {
