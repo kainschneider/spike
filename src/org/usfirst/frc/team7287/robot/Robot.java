@@ -31,8 +31,8 @@ public class Robot extends IterativeRobot {
 	boolean shouldGrab; 
 	DigitalInput bottomLimit;
 	DigitalInput topLimit;
-	string switchAndScaleSides = DriverStation.getInstance().getGameSpecificMessage();
-	string closeSwitchSide;
+	String switchAndScaleSides = DriverStation.getInstance().getGameSpecificMessage();
+	String closeSwitchSide;
 	
 	@Override
 	public void robotInit() {
@@ -49,7 +49,7 @@ public class Robot extends IterativeRobot {
 		shouldGrab = false;
 		bottomLimit = new DigitalInput(0);
 		topLimit = new DigitalInput (1);
-		this.closeSwitchSide = String.valueOf(this.scaleAndSwitchSides.char(0));
+		this.closeSwitchSide = String.valueOf(this.switchAndScaleSides.charAt(0));
 		System.out.println("Our side of each is: " + switchAndScaleSides);
 		System.out.println("Our side of the close switch is: " + closeSwitchSide);
 	}
@@ -91,7 +91,7 @@ public class Robot extends IterativeRobot {
 					//Drive forward for 2.2 seconds
 					timer.start();
 					initialAutonomous();
-					if (timer.get >= 2.2) {
+					if (timer.get() >= 2.2) {
 					timer.stop();
 					timer.reset();
 					autoQue++;
@@ -101,7 +101,7 @@ public class Robot extends IterativeRobot {
 				break;
 					}		
 			}
-			else if(switchSide == "L") {
+			else if(closeSwitchSide == "L") {
 				switch (autoQue) {
 				case 0:
 					break;
