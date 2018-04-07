@@ -32,12 +32,7 @@ public class Drive {
 		default:
 		}
 	}
-	public void manualTurning(double speedL, double speedR) {
+	public void tankDrive(double speedL, double speedR) {
 		robot.tankDrive(speedL,speedR,shouldRamp);
 	}
-	// k = ratio beteen speed of inside wheel to  the speed of the outside wheel insideWheelSpeed = k*outsideWheelSpeed
-	double k = 0.75;
-	public void smoothTurning(double speedOfOutside) {
-		robot.tankDrive(speedOfOutside,  speedOfOutside*k, shouldRamp);
-		}
 }
