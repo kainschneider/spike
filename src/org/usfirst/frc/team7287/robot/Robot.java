@@ -33,6 +33,7 @@ public class Robot extends IterativeRobot {
 	DigitalInput topLimit;
 	String switchAndScaleSides = DriverStation.getInstance().getGameSpecificMessage();
 	String closeSwitchSide;
+	int autoState;
 	
 	@Override
 	public void robotInit() {
@@ -41,7 +42,7 @@ public class Robot extends IterativeRobot {
 		gantryController = new Joystick(1);
 		timer = new Timer();
 		drive = new Drive(spike, false);
-		teleopSpeed = 1.0;
+		teleopSpeed = 1;
 		clawHeightSensor = new ClawHeightSensor(0);
 		clawMotor = new TalonSRX(0);
 		verticalMotor = new TalonSRX(1);
@@ -77,41 +78,56 @@ public class Robot extends IterativeRobot {
 		timeFix = 0;
 		timer.reset();
 		timer.start();
+		autoState = 0;
 	}
-	
 	
 	@Override
 	public void autonomousPeriodic() {
-		int autoQue = 0;
-		boolean autoRun = true;
-		while(autoRun) {
-			if (closeSwitchSide == "R"){
-				switch (autoQue) {
+		System.out.println(autoState);		
+		System.out.println("CHEESE"+closeSwitchSide);
+		double turnTime = 0.5;
+		switch (autoState) {
 				case 0:
-					//Drive forward for 2.2 seconds
-					timer.start();
-					initialAutonomous();
-					if (timer.get() >= 2.2) {
-					timer.stop();
-					timer.reset();
-					autoQue++;
+					if (closeSwitchSide.equals("L")) {
+						autoState = 3;
+					}
+					else {
+						autoState = 1;
 					}
 					break;
-				default: autoRun = false; drive.stop();
-				break;
-					}		
-			}
-			else if(closeSwitchSide == "L") {
-				switch (autoQue) {
-				case 0:
+				case 1:
+					//Drives straight into switch to deliver cube(middle right)
+					drive.forward(0.5);
+					if (timer.get() >= 1) {
+						timer.reset();
+						autoState = 10 ;
+					}
 					break;
-				default: autoRun = false;
-				drive.stop();
+				case 2: //turns 90 degrees let
+					drive.turn("left", 0.5);					
+					if (timer.get() >= turnTime) {
+						timer.reset();
+						autoState = 3 ;
+					}
+					break;
+				case 3: // drive forward to align with left side of switch
+					drive.smoothTurning(0.5);
+					if (timer.get() >= 3.5) {
+						timer.reset();
+						autoState = 10 ;
+					}
+					break;
+				case 4: // turn right 90 degrees 
+					drive.turn("right", turnTime);
+					if (timer.get() >= 0.5) {
+						timer.reset();
+						autoState = 1 ;
+					}
+					break;
+				case 10: // Stop
+					drive.stop();
+					break;
 				}
-			}
-		}
-		initialAutonomous();
-
 	}
 	
 //		Autonomous initial cube drop procedure, moves robot forwards 10' and drops cube into claws
@@ -169,3 +185,4 @@ public class Robot extends IterativeRobot {
 		spike.arcadeDrive(stick.getY()*teleopSpeed, stick.getRawAxis(2)*teleopSpeed);
 		}
 	}
+

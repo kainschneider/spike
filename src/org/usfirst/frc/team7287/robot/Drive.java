@@ -25,19 +25,19 @@ public class Drive {
 		switch(direction.toLowerCase()) {
 		case "right": 
 			robot.tankDrive(speed, -speed, shouldRamp);
+			break;
 		case "left":
 			robot.tankDrive(-speed, speed, shouldRamp);
+			break;
 		default:
 		}
 	}
 	public void manualTurning(double speedL, double speedR) {
 		robot.tankDrive(speedL,speedR,shouldRamp);
 	}
-	public void smoothTurning(double speedOfLeftSide) {
-		//OKAY, I know this looks odd so let me explain
-		//It means that the power is divided up between the sides,
-		//so the speed you input wil go to the left side and what ever is left over
-		//will go to the other side
-		robot.tankDrive(speedOfLeftSide, 1 - speedOfLeftSide, shouldRamp);
+	// k = ratio beteen speed of inside wheel to  the speed of the outside wheel insideWheelSpeed = k*outsideWheelSpeed
+	double k = 0.75;
+	public void smoothTurning(double speedOfOutside) {
+		robot.tankDrive(speedOfOutside,  speedOfOutside*k, shouldRamp);
 		}
 }
