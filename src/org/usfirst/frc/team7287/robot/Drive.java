@@ -11,27 +11,28 @@ public class Drive {
 		this.shouldRamp = shouldRamp;
 	}
 	public void forward(double speed) {
-		System.out.println("Forward at speed " + speed);
 		robot.tankDrive(speed, speed, shouldRamp);
 	}
 	public void stop() {
-		System.out.println("Stop");
 		robot.tankDrive(0.0, 0.0, shouldRamp);
 	}
 	
 	public void reverse(double speed) {
-		System.out.println("Reverse at speed " + speed);
 		robot.tankDrive(-speed, -speed, shouldRamp);
 	}
 	
 	public void turn(String direction, double speed) {
-		System.out.println("Turn in direction " + direction + " and at speed " + speed);
 		switch(direction.toLowerCase()) {
 		case "right": 
 			robot.tankDrive(speed, -speed, shouldRamp);
+			break;
 		case "left":
 			robot.tankDrive(-speed, speed, shouldRamp);
+			break;
 		default:
 		}
+	}
+	public void tankDrive(double speedL, double speedR) {
+		robot.tankDrive(speedL,speedR,shouldRamp);
 	}
 }
