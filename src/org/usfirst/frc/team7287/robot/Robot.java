@@ -105,7 +105,7 @@ public class Robot extends IterativeRobot {
 					}
 					break;
 				
-				case 10: // Stop
+				case 100: // Stop
 					drive.stop();
 					break;
 				}
